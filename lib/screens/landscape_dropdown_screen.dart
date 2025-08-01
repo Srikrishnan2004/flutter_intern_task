@@ -69,7 +69,6 @@ class _LandscapeDropdownScreenState extends State<LandscapeDropdownScreen> {
                       selectedCategory1,
                       (value) => setState(() {
                         selectedCategory1 = value;
-                        _clearOtherSelections(1);
                       }),
                       1,
                     ),
@@ -79,7 +78,6 @@ class _LandscapeDropdownScreenState extends State<LandscapeDropdownScreen> {
                       selectedCategory2,
                       (value) => setState(() {
                         selectedCategory2 = value;
-                        _clearOtherSelections(2);
                       }),
                       2,
                     ),
@@ -89,7 +87,6 @@ class _LandscapeDropdownScreenState extends State<LandscapeDropdownScreen> {
                       selectedCategory3,
                       (value) => setState(() {
                         selectedCategory3 = value;
-                        _clearOtherSelections(3);
                       }),
                       3,
                     ),
@@ -99,7 +96,6 @@ class _LandscapeDropdownScreenState extends State<LandscapeDropdownScreen> {
                       selectedCategory4,
                       (value) => setState(() {
                         selectedCategory4 = value;
-                        _clearOtherSelections(4);
                       }),
                       4,
                     ),
@@ -109,7 +105,6 @@ class _LandscapeDropdownScreenState extends State<LandscapeDropdownScreen> {
                       selectedCategory5,
                       (value) => setState(() {
                         selectedCategory5 = value;
-                        _clearOtherSelections(5);
                       }),
                       5,
                     ),
@@ -119,7 +114,6 @@ class _LandscapeDropdownScreenState extends State<LandscapeDropdownScreen> {
                       selectedCategory6,
                       (value) => setState(() {
                         selectedCategory6 = value;
-                        _clearOtherSelections(6);
                       }),
                       6,
                     ),
@@ -145,16 +139,6 @@ class _LandscapeDropdownScreenState extends State<LandscapeDropdownScreen> {
         ),
       ),
     );
-  }
-
-  // Helper method to clear other dropdown selections
-  void _clearOtherSelections(int selectedDropdown) {
-    if (selectedDropdown != 1) selectedCategory1 = null;
-    if (selectedDropdown != 2) selectedCategory2 = null;
-    if (selectedDropdown != 3) selectedCategory3 = null;
-    if (selectedDropdown != 4) selectedCategory4 = null;
-    if (selectedDropdown != 5) selectedCategory5 = null;
-    if (selectedDropdown != 6) selectedCategory6 = null;
   }
 
   // Build dropdown without integrated table (just the dropdown part)
