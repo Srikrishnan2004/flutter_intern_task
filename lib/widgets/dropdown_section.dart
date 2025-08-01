@@ -85,10 +85,13 @@ class DropdownSection extends StatelessWidget {
             Expanded(
               child: Container(
                 padding: const EdgeInsets.all(AppConstants.paddingSmall),
+                width: double.infinity,
                 child: selectedValue != null
-                    ? DataTableWidget(
-                        selectedItem: selectedValue!,
-                        categoryNumber: categoryNumber,
+                    ? ClipRect(
+                        child: DataTableWidget(
+                          selectedItem: selectedValue!,
+                          categoryNumber: categoryNumber,
+                        ),
                       )
                     : const Center(
                         child: Text(

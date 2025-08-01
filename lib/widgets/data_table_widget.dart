@@ -19,67 +19,120 @@ class DataTableWidget extends StatelessWidget {
     List<TableDataModel> data =
         DataGenerator.generateDummyData(selectedItem, categoryNumber);
 
-    return SingleChildScrollView(
-      scrollDirection: Axis.vertical,
+    return Container(
+      width: double.infinity,
       child: SingleChildScrollView(
-        scrollDirection: Axis.horizontal,
-        child: DataTable(
-          columnSpacing: AppConstants.columnSpacing,
-          dataRowMinHeight: AppConstants.dataRowMinHeight,
-          dataRowMaxHeight: AppConstants.dataRowMaxHeight,
-          headingRowHeight: AppConstants.headingRowHeight,
-          columns: const [
-            DataColumn(
-              label: Text(
-                AppStrings.idHeader,
-                style: TextStyle(
-                    fontWeight: FontWeight.bold,
-                    fontSize: AppConstants.fontSizeSmall + 1),
-              ),
+        scrollDirection: Axis.vertical,
+        child: SingleChildScrollView(
+          scrollDirection: Axis.horizontal,
+          child: ConstrainedBox(
+            constraints: BoxConstraints(
+              minWidth: MediaQuery.of(context).size.width / 6 -
+                  32, // Dropdown width minus padding
             ),
-            DataColumn(
-              label: Text(
-                AppStrings.nameHeader,
-                style: TextStyle(
-                    fontWeight: FontWeight.bold,
-                    fontSize: AppConstants.fontSizeSmall + 1),
-              ),
-            ),
-            DataColumn(
-              label: Text(
-                AppStrings.priceHeader,
-                style: TextStyle(
-                    fontWeight: FontWeight.bold,
-                    fontSize: AppConstants.fontSizeSmall + 1),
-              ),
-            ),
-            DataColumn(
-              label: Text(
-                AppStrings.stockHeader,
-                style: TextStyle(
-                    fontWeight: FontWeight.bold,
-                    fontSize: AppConstants.fontSizeSmall + 1),
-              ),
-            ),
-          ],
-          rows: data.map((item) {
-            return DataRow(
-              cells: [
-                DataCell(Text(item.id,
-                    style:
-                        const TextStyle(fontSize: AppConstants.fontSizeSmall))),
-                DataCell(Text(item.name,
-                    style:
-                        const TextStyle(fontSize: AppConstants.fontSizeSmall))),
-                DataCell(Text(item.price,
-                    style:
-                        const TextStyle(fontSize: AppConstants.fontSizeSmall))),
-                DataCell(Text(item.stock,
-                    style:
-                        const TextStyle(fontSize: AppConstants.fontSizeSmall))),
+            child: DataTable(
+              columnSpacing: 8, // Reduced spacing to fit better
+              dataRowMinHeight: AppConstants.dataRowMinHeight,
+              dataRowMaxHeight: AppConstants.dataRowMaxHeight,
+              headingRowHeight: AppConstants.headingRowHeight,
+              columns: const [
+                DataColumn(
+                  label: Expanded(
+                    child: Text(
+                      AppStrings.idHeader,
+                      style: TextStyle(
+                          fontWeight: FontWeight.bold,
+                          fontSize: AppConstants.fontSizeSmall + 1),
+                      overflow: TextOverflow.ellipsis,
+                    ),
+                  ),
+                ),
+                DataColumn(
+                  label: Expanded(
+                    child: Text(
+                      AppStrings.nameHeader,
+                      style: TextStyle(
+                          fontWeight: FontWeight.bold,
+                          fontSize: AppConstants.fontSizeSmall + 1),
+                      overflow: TextOverflow.ellipsis,
+                    ),
+                  ),
+                ),
+                DataColumn(
+                  label: Expanded(
+                    child: Text(
+                      AppStrings.priceHeader,
+                      style: TextStyle(
+                          fontWeight: FontWeight.bold,
+                          fontSize: AppConstants.fontSizeSmall + 1),
+                      overflow: TextOverflow.ellipsis,
+                    ),
+                  ),
+                ),
+                DataColumn(
+                  label: Expanded(
+                    child: Text(
+                      AppStrings.stockHeader,
+                      style: TextStyle(
+                          fontWeight: FontWeight.bold,
+                          fontSize: AppConstants.fontSizeSmall + 1),
+                      overflow: TextOverflow.ellipsis,
+                    ),
+                  ),
+                ),
               ],
-            );
-          }).toList(),
+              rows: data.map((item) {
+                return DataRow(
+                  cells: [
+                    DataCell(
+                      Container(
+                        constraints: BoxConstraints(maxWidth: 40),
+                        child: Text(
+                          item.id,
+                          style: const TextStyle(
+                              fontSize: AppConstants.fontSizeSmall),
+                          overflow: TextOverflow.ellipsis,
+                        ),
+                      ),
+                    ),
+                    DataCell(
+                      Container(
+                        constraints: BoxConstraints(maxWidth: 80),
+                        child: Text(
+                          item.name,
+                          style: const TextStyle(
+                              fontSize: AppConstants.fontSizeSmall),
+                          overflow: TextOverflow.ellipsis,
+                        ),
+                      ),
+                    ),
+                    DataCell(
+                      Container(
+                        constraints: BoxConstraints(maxWidth: 50),
+                        child: Text(
+                          item.price,
+                          style: const TextStyle(
+                              fontSize: AppConstants.fontSizeSmall),
+                          overflow: TextOverflow.ellipsis,
+                        ),
+                      ),
+                    ),
+                    DataCell(
+                      Container(
+                        constraints: BoxConstraints(maxWidth: 40),
+                        child: Text(
+                          item.stock,
+                          style: const TextStyle(
+                              fontSize: AppConstants.fontSizeSmall),
+                          overflow: TextOverflow.ellipsis,
+                        ),
+                      ),
+                    ),
+                  ],
+                );
+              }).toList(),
+            ),
+          ),
         ),
       ),
     );
