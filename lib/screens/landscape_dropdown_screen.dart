@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
-import '../widgets/dropdown_section.dart';
+import '../widgets/data_table_widget.dart';
 import '../models/dropdown_data.dart';
 import '../constants/app_constants.dart';
 
@@ -58,73 +58,216 @@ class _LandscapeDropdownScreenState extends State<LandscapeDropdownScreen> {
           padding: const EdgeInsets.all(AppConstants.paddingSmall),
           child: Column(
             children: [
-              // First row of dropdowns (3 dropdowns)
-              Expanded(
-                flex: 1,
+              // Dropdowns in a single horizontal row
+              Container(
+                height: 80, // Fixed height for dropdown row
                 child: Row(
                   children: [
-                    DropdownSection(
-                      title: 'Electronics',
-                      items: _dropdownData.categories1,
-                      selectedValue: selectedCategory1,
-                      onChanged: (value) =>
-                          setState(() => selectedCategory1 = value),
-                      categoryNumber: 1,
+                    _buildDropdownWithTable(
+                      'Electronics',
+                      _dropdownData.categories1,
+                      selectedCategory1,
+                      (value) => setState(() {
+                        selectedCategory1 = value;
+                        _clearOtherSelections(1);
+                      }),
+                      1,
                     ),
-                    DropdownSection(
-                      title: 'Clothing',
-                      items: _dropdownData.categories2,
-                      selectedValue: selectedCategory2,
-                      onChanged: (value) =>
-                          setState(() => selectedCategory2 = value),
-                      categoryNumber: 2,
+                    _buildDropdownWithTable(
+                      'Clothing',
+                      _dropdownData.categories2,
+                      selectedCategory2,
+                      (value) => setState(() {
+                        selectedCategory2 = value;
+                        _clearOtherSelections(2);
+                      }),
+                      2,
                     ),
-                    DropdownSection(
-                      title: 'Books',
-                      items: _dropdownData.categories3,
-                      selectedValue: selectedCategory3,
-                      onChanged: (value) =>
-                          setState(() => selectedCategory3 = value),
-                      categoryNumber: 3,
+                    _buildDropdownWithTable(
+                      'Books',
+                      _dropdownData.categories3,
+                      selectedCategory3,
+                      (value) => setState(() {
+                        selectedCategory3 = value;
+                        _clearOtherSelections(3);
+                      }),
+                      3,
+                    ),
+                    _buildDropdownWithTable(
+                      'Food',
+                      _dropdownData.categories4,
+                      selectedCategory4,
+                      (value) => setState(() {
+                        selectedCategory4 = value;
+                        _clearOtherSelections(4);
+                      }),
+                      4,
+                    ),
+                    _buildDropdownWithTable(
+                      'Sports',
+                      _dropdownData.categories5,
+                      selectedCategory5,
+                      (value) => setState(() {
+                        selectedCategory5 = value;
+                        _clearOtherSelections(5);
+                      }),
+                      5,
+                    ),
+                    _buildDropdownWithTable(
+                      'Home',
+                      _dropdownData.categories6,
+                      selectedCategory6,
+                      (value) => setState(() {
+                        selectedCategory6 = value;
+                        _clearOtherSelections(6);
+                      }),
+                      6,
                     ),
                   ],
                 ),
               ),
-              // Second row of dropdowns (3 dropdowns)
+              const SizedBox(height: 16),
+              // Table area below dropdowns
               Expanded(
-                flex: 1,
                 child: Row(
                   children: [
-                    DropdownSection(
-                      title: 'Food',
-                      items: _dropdownData.categories4,
-                      selectedValue: selectedCategory4,
-                      onChanged: (value) =>
-                          setState(() => selectedCategory4 = value),
-                      categoryNumber: 4,
-                    ),
-                    DropdownSection(
-                      title: 'Sports',
-                      items: _dropdownData.categories5,
-                      selectedValue: selectedCategory5,
-                      onChanged: (value) =>
-                          setState(() => selectedCategory5 = value),
-                      categoryNumber: 5,
-                    ),
-                    DropdownSection(
-                      title: 'Home',
-                      items: _dropdownData.categories6,
-                      selectedValue: selectedCategory6,
-                      onChanged: (value) =>
-                          setState(() => selectedCategory6 = value),
-                      categoryNumber: 6,
-                    ),
+                    _buildTableArea(selectedCategory1, 1, 'Electronics'),
+                    _buildTableArea(selectedCategory2, 2, 'Clothing'),
+                    _buildTableArea(selectedCategory3, 3, 'Books'),
+                    _buildTableArea(selectedCategory4, 4, 'Food'),
+                    _buildTableArea(selectedCategory5, 5, 'Sports'),
+                    _buildTableArea(selectedCategory6, 6, 'Home'),
                   ],
                 ),
               ),
             ],
           ),
         ),
+      ),
+    );
+  }
+
+  // Helper method to clear other dropdown selections
+  void _clearOtherSelections(int selectedDropdown) {
+    if (selectedDropdown != 1) selectedCategory1 = null;
+    if (selectedDropdown != 2) selectedCategory2 = null;
+    if (selectedDropdown != 3) selectedCategory3 = null;
+    if (selectedDropdown != 4) selectedCategory4 = null;
+    if (selectedDropdown != 5) selectedCategory5 = null;
+    if (selectedDropdown != 6) selectedCategory6 = null;
+  }
+
+  // Build dropdown without integrated table (just the dropdown part)
+  Widget _buildDropdownWithTable(
+    String title,
+    List<String> items,
+    String? selectedValue,
+    Function(String?) onChanged,
+    int categoryNumber,
+  ) {
+    return Expanded(
+      child: Container(
+        margin: const EdgeInsets.symmetric(
+            horizontal: 2), // Small spacing between dropdowns
+        decoration: BoxDecoration(
+          border: Border.all(color: Colors.grey.shade300),
+          borderRadius: BorderRadius.circular(AppConstants.borderRadius),
+        ),
+        child: Container(
+          padding: const EdgeInsets.all(AppConstants.paddingSmall),
+          decoration: BoxDecoration(
+            color: AppConstants.primaryColor.shade50,
+            borderRadius: BorderRadius.circular(AppConstants.borderRadius),
+          ),
+          child: Column(
+            crossAxisAlignment: CrossAxisAlignment.start,
+            children: [
+              Text(
+                title,
+                style: const TextStyle(
+                  fontWeight: FontWeight.bold,
+                  fontSize: AppConstants.fontSizeMedium,
+                ),
+              ),
+              const SizedBox(height: AppConstants.paddingSmall),
+              Expanded(
+                child: DropdownButtonFormField<String>(
+                  value: selectedValue,
+                  decoration: InputDecoration(
+                    contentPadding: const EdgeInsets.symmetric(
+                        horizontal: AppConstants.paddingSmall, vertical: 4),
+                    border: OutlineInputBorder(
+                      borderRadius: BorderRadius.circular(6),
+                    ),
+                    filled: true,
+                    fillColor: AppConstants.backgroundColor,
+                  ),
+                  hint: const Text(
+                    AppStrings.selectItemHint,
+                    style: TextStyle(fontSize: AppConstants.fontSizeSmall),
+                  ),
+                  isExpanded: true,
+                  items: items.map((String item) {
+                    return DropdownMenuItem<String>(
+                      value: item,
+                      child: Text(
+                        item,
+                        style: const TextStyle(
+                            fontSize: AppConstants.fontSizeSmall),
+                        overflow: TextOverflow.ellipsis,
+                      ),
+                    );
+                  }).toList(),
+                  onChanged: onChanged,
+                ),
+              ),
+            ],
+          ),
+        ),
+      ),
+    );
+  }
+
+  // Build the table area for each dropdown
+  Widget _buildTableArea(
+      String? selectedItem, int categoryNumber, String categoryTitle) {
+    return Expanded(
+      child: Container(
+        margin: const EdgeInsets.symmetric(horizontal: 2),
+        padding: const EdgeInsets.all(AppConstants.paddingSmall),
+        decoration: BoxDecoration(
+          border: Border.all(color: Colors.grey.shade300),
+          borderRadius: BorderRadius.circular(AppConstants.borderRadius),
+          color: Colors.white,
+        ),
+        child: selectedItem != null
+            ? Column(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: [
+                  Text(
+                    '$categoryTitle',
+                    style: const TextStyle(
+                      fontSize: AppConstants.fontSizeMedium,
+                      fontWeight: FontWeight.bold,
+                    ),
+                  ),
+                  Text(
+                    selectedItem,
+                    style: const TextStyle(
+                      fontSize: AppConstants.fontSizeSmall,
+                      color: Colors.grey,
+                    ),
+                  ),
+                  const SizedBox(height: AppConstants.paddingSmall),
+                  Expanded(
+                    child: DataTableWidget(
+                      selectedItem: selectedItem,
+                      categoryNumber: categoryNumber,
+                    ),
+                  ),
+                ],
+              )
+            : const SizedBox.shrink(), // Empty space when no selection
       ),
     );
   }

@@ -30,7 +30,8 @@ class AppConstants {
 
 class AppStrings {
   static const String selectItemHint = 'Select item';
-  static const String selectItemMessage = 'Select an item to view data';
+  static const String selectItemMessage =
+      'Select an item from any dropdown to view data';
 
   // Table Headers
   static const String idHeader = 'ID';
